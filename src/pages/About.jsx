@@ -1,4 +1,3 @@
-import React from 'react'
 
 export default function About(){
   const staff=[
@@ -6,18 +5,8 @@ export default function About(){
     {id:2, name:'Dr. Pérez', area:'Traumatología', bio:'Cirugía ortopédica y rehabilitación.'},
     {id:3, name:'Dra. Silva', area:'Dermatología', bio:'Alergias, infecciones y manejo crónico de piel.'},
   ]
-  const lab=[
-    'Hematología y bioquímica',
-    'Ecografía doppler',
-    'Rayos X digital',
-    'Test rápidos (parvo, moquillo, VIF/FeLV)'
-  ]
-  const servicios=[
-    'Consultas generales y vacunación',
-    'Especialistas itinerantes de Santiago (agenda con anticipo 50%)',
-    'Hospitalización de día',
-    'Farmacia y alimentos recetados'
-  ]
+  const lab=['Hematología y bioquímica','Ecografía doppler','Rayos X digital','Test rápidos (parvo, moquillo, VIF/FeLV)']
+  const servicios=['Consultas generales y vacunación','Especialistas itinerantes (anticipo 50%)','Hospitalización de día','Farmacia y alimentos recetados']
   return (
     <div className="card">
       <h1>Quiénes Somos</h1>
@@ -34,10 +23,8 @@ export default function About(){
           </div>
         ))}
       </div>
-
       <h3 style={{marginTop:16}}>Servicios</h3>
       <ul>{servicios.map((x,i)=><li key={i} className="small">{x}</li>)}</ul>
-
       <h3 style={{marginTop:16}}>Instrumental / Laboratorio</h3>
       <ul>{lab.map((x,i)=><li key={i} className="small">{x}</li>)}</ul>
     </div>

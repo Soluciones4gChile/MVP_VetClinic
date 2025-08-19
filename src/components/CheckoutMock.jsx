@@ -1,8 +1,8 @@
 
-import React from 'react'
+import { useState } from 'react'
 import { money } from '../utils'
 export default function CheckoutMock({ open, amount, onClose, onResult }){
-  const [busy,setBusy] = React.useState(false);
+  const [busy,setBusy] = useState(false)
   if (!open) return null
   return (
     <div className="backdrop">

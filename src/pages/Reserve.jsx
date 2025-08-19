@@ -1,10 +1,10 @@
 
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import WeekStrip from '../components/WeekStrip.jsx'
 import SpecialistCard from '../components/SpecialistCard.jsx'
 import HoursModal from '../components/HoursModal.jsx'
 import CheckoutMock from '../components/CheckoutMock.jsx'
-import { uid, tryCreateReservation, isSlotTaken, createMagicToken, getReservations } from '../storage'
+import { uid, tryCreateReservation, createMagicToken, getReservations } from '../storage'
 import { useNavigate } from 'react-router-dom'
 
 const SPECIALISTS = [
@@ -30,15 +30,24 @@ export default function Reserve(){
   const [anchor, setAnchor] = useState(()=>{ const d=new Date(); d.setHours(0,0,0,0); return d })
   const [selectedDay, setSelectedDay] = useState(()=> new Date())
   const [modal, setModal] = useState({ open:false, spec:null })
-  const [stamp, setStamp] = useState(0)
   const [checkout, setCheckout] = useState({ open:false, spec:null, iso:null })
+  const [stamp, setStamp] = useState(0)
 
   const reservedSet = useMemo(()=>{
     const all = getReservations().filter(r => r.status==='Activa')
-    return new Set(all.map(r => r.datetimeISO))
-  }, [modal, checkout])
+    return new Set(all.map(r => `${r.specialistId}__${r.datetimeISO}`))
+  }, [modal, checkout, stamp, selectedDay])
 
   const hoursForDay = useMemo(()=> buildHours(selectedDay), [selectedDay])
+
+  useEffect(()=>{
+    const bump=()=>setStamp(s=>s+1)
+    const onVis=()=>{ if(!document.hidden) bump() }
+    window.addEventListener('focus', bump)
+    window.addEventListener('visibilitychange', onVis)
+    window.addEventListener('storage', bump)
+    return ()=>{ window.removeEventListener('focus', bump); window.removeEventListener('visibilitychange', onVis); window.removeEventListener('storage', bump) }
+  },[])
 
   function onPick(spec, iso){
     if (!email) { alert('Ingresa tu correo antes de reservar.'); return }
@@ -57,23 +66,15 @@ export default function Reserve(){
       createdAt: new Date().toISOString(),
       history: [{at:new Date().toISOString(), action:'Creada'}]
     })
-    if (!result.ok){ alert('Lo sentimos, esa hora ya fue tomada. Selecciona otra.'); return }
+    if (!result.ok){ alert('Lo sentimos, esa hora ya fue tomada. Selecciona otra.'); setStamp(s=>s+1); return }
     const token = createMagicToken(email)
+    setStamp(s=>s+1)
     if (confirm('Pago exitoso (simulación). ¿Ir a "Mis Reservas"?')){
       nav('/m/'+token)
     }
   }
 
   const shortCount = 4
-
-  React.useEffect(()=>{
-    const bump=()=>setStamp(s=>s+1)
-    const onVis=()=>{ if(!document.hidden) bump() }
-    window.addEventListener('focus', bump)
-    window.addEventListener('visibilitychange', onVis)
-    window.addEventListener('storage', bump)
-    return ()=>{ window.removeEventListener('focus', bump); window.removeEventListener('visibilitychange', onVis); window.removeEventListener('storage', bump) }
-  },[])
 
   return (
     <div className="card">

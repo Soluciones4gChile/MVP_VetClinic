@@ -1,13 +1,10 @@
 
-import React from 'react'
 function fmtDay(d){ return d.toLocaleDateString('es-CL', { weekday:'short' }).replace('.', '') }
 function fmtDate(d){ const day = d.getDate().toString().padStart(2,'0'); const mon = d.toLocaleDateString('es-CL', { month:'short' }).replace('.', ''); return `${day} ${mon}` }
-
 export default function WeekStrip({ anchor, selected, onPrev, onNext, onSelect }){
   const today = new Date(); today.setHours(0,0,0,0)
-  const days = [...Array(7)].map((_,i)=>{ const d=new Date(anchor); d.setDate(d.getDate()+i); d.setHours(0,0,0,0); return d })
+  const days = [...Array(7)].map((_,i)=>{ const dd=new Date(anchor); dd.setDate(dd.getDate()+i); dd.setHours(0,0,0,0); return dd })
   const canPrev = days[0].getTime() > today.getTime()
-
   return (
     <div className="week">
       <button className="chev" aria-label="Anterior" onClick={()=>{ if(canPrev) onPrev() }} disabled={!canPrev} style={{opacity: canPrev?1:.5, cursor: canPrev?'pointer':'not-allowed'}}>‹</button>
