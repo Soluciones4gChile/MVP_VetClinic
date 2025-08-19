@@ -59,7 +59,7 @@ export default function HoursModal({ open, specialist, date, hours, reservedSet,
                 const reserved = reservedSet.has(`${specialist.id}__${iso}`)
                 return (
                   <button key={iso} className="btn" disabled={reserved} onClick={()=>onPick(iso)}>
-                    {h.toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit'})}
+                    {h.toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit', hour12: false, hour12: false})}
                   </button>
                 )
               })}

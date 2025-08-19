@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="220">
+  <defs>
+    <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#518FAF"/>
+      <stop offset="1" stop-color="#212F3D"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g)"/>
+  <text x="50%" y="55%" text-anchor="middle" font-family="Inter,Arial" font-size="44" fill="#ffffff">San Pablo Vet Clinic</text>
+  <text x="50%" y="75%" text-anchor="middle" font-family="Inter,Arial" font-size="16" fill="#e6f2ff">Cercanos, confiables y 24/7 para tu familia peluda</text>
+</svg>

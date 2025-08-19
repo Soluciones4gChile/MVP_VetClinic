@@ -9,7 +9,9 @@ export default function Home(){
   ]
   return (
     <div>
-      <section className="card" style={{padding:'28px', marginBottom:16}}>
+      <section className="card" style={{padding:0, overflow:'hidden', marginBottom:16}}>
+        <img src="/banner.svg" alt="San Pablo Vet Clinic" style={{width:'100%', display:'block'}}/>
+        <div style={{padding:'18px'}}>
         <div className="row" style={{justifyContent:'space-between'}}>
           <div>
             <h1 style={{margin:'0 0 8px'}}>Clínica Vet · Demo</h1>
@@ -19,6 +21,7 @@ export default function Home(){
             <Link className="btn" to="/reservar">Reservar ahora</Link>
           </div>
         </div>
+              </div>
       </section>
 
       <section className="card">
@@ -34,6 +37,7 @@ export default function Home(){
             </div>
           ))}
         </div>
+              </div>
       </section>
     </div>
   )

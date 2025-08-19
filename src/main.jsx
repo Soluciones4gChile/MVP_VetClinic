@@ -12,7 +12,7 @@ import './styles.css'
 function Layout({children}){
   return (
     <div className="container">
-      <header className="row" style={{justifyContent:'space-between', marginBottom:16}}>
+      <header className="row topbar" style={{justifyContent:'space-between', marginBottom:16}}>
         <Link to="/"><strong>Clínica Vet · Demo</strong></Link>
         <nav className="row" style={{gap:12, alignItems:'center'}}>
           <Link to="/about">Quiénes somos</Link>

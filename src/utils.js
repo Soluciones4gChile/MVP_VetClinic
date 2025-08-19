@@ -1,7 +1,7 @@
 
 export function fmtDateTime(dt){
   const d = new Date(dt)
-  return d.toLocaleString('es-CL')
+  return d.toLocaleString('es-CL', { hour12: false })
 }
 export function hoursDiff(futureISO, fromISO){
   const a = new Date(futureISO).getTime()
