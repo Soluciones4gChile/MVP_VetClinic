@@ -8,7 +8,7 @@ import MagicLink from './pages/MagicLink.jsx'
 import Portal from './pages/Portal.jsx'
 import './styles.css'
 
-function Layout({children}) {
+function Layout({children}){
   return (
     <div className="container">
       <header className="row" style={{justifyContent:'space-between', marginBottom:16}}>

@@ -1,10 +1,13 @@
 
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { money } from '../utils'
 
-function buildMonthGrid(baseDate){
-  const d = new Date(baseDate)
-  d.setDate(1)
+function monthKey(d){ return `${d.getFullYear()}-${d.getMonth()+1}` }
+function firstOfMonth(d){ const x = new Date(d); x.setDate(1); x.setHours(0,0,0,0); return x }
+function startOfToday(){ const t=new Date(); t.setHours(0,0,0,0); return t }
+
+function buildMonthGrid(view){
+  const d = firstOfMonth(view)
   const firstDow = (d.getDay() + 6) % 7 // Monday=0
   const daysInMonth = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate()
   const cells = []
@@ -12,15 +15,25 @@ function buildMonthGrid(baseDate){
   for (let day=1; day<=daysInMonth; day++){
     const x = new Date(d)
     x.setDate(day)
+    x.setHours(0,0,0,0)
     cells.push({ date:x, label:String(day) })
   }
   while (cells.length % 7 !== 0) cells.push({ muted:true, label:'' })
   return cells
 }
 
-export default function HoursModal({ open, specialist, date, hours, reservedSet, onClose, onPick }){
+export default function HoursModal({ open, specialist, date, hours, reservedSet, onClose, onPick, onSelectDate }){
+  const today = startOfToday()
+  const [viewMonth, setViewMonth] = useState(()=> firstOfMonth(date))
+  const canPrev = useMemo(()=> monthKey(firstOfMonth(today)) !== monthKey(viewMonth), [viewMonth])
+
+  function prevMonth(){ if(!canPrev) return; const x=new Date(viewMonth); x.setMonth(x.getMonth()-1); setViewMonth(firstOfMonth(x)) }
+  function nextMonth(){ const x=new Date(viewMonth); x.setMonth(x.getMonth()+1); setViewMonth(firstOfMonth(x)) }
+
   if (!open) return null
-  const monthCells = buildMonthGrid(date)
+  const cells = buildMonthGrid(viewMonth)
+
+  function canSelect(day){ return day && day.getTime() >= today.getTime() }
 
   return (
     <div className="backdrop" role="dialog" aria-modal="true">
@@ -54,18 +67,34 @@ export default function HoursModal({ open, specialist, date, hours, reservedSet,
           </div>
           <div>
             <div className="row" style={{justifyContent:'space-between', marginBottom:6}}>
-              <div style={{fontWeight:700}}>Otras fechas</div>
-              <div className="badge">{date.toLocaleDateString('es-CL',{month:'long', year:'numeric'})}</div>
+              <div style={{fontWeight:700}}>Selecciona otra fecha</div>
+              <div className="row" style={{gap:8}}>
+                <button className="btn secondary" onClick={prevMonth} disabled={!canPrev}>‹</button>
+                <div className="badge">{viewMonth.toLocaleDateString('es-CL',{month:'long', year:'numeric'})}</div>
+                <button className="btn secondary" onClick={nextMonth}>›</button>
+              </div>
             </div>
             <div className="calendar">
               {['L','M','M','J','V','S','D'].map((w,i)=>(<div key={i} className="cell muted">{w}</div>))}
-              {monthCells.map((c,i)=>{
+              {cells.map((c,i)=>{
                 if (c.muted) return <div key={i} className="cell muted"></div>
                 const sel = c.date.toDateString() === date.toDateString()
-                return <div key={i} className={`cell ${sel?'sel':''}`}>{c.label}</div>
+                const disabled = !canSelect(c.date)
+                const cls = `cell ${sel?'sel':''} ${disabled?'muted':''}`
+                return (
+                  <button
+                    key={i}
+                    className={cls}
+                    disabled={disabled}
+                    onClick={()=> onSelectDate && onSelectDate(c.date) }
+                    style={{cursor: disabled ? 'not-allowed' : 'pointer', background:'transparent'}}
+                  >
+                    {c.label}
+                  </button>
+                )
               })}
             </div>
-            <div className="small" style={{marginTop:8}}>En la demo, el calendario es ilustrativo (la selección de día se hace en la franja superior).</div>
+            <div className="small" style={{marginTop:8}}>No se permiten fechas pasadas ni meses anteriores.</div>
           </div>
         </div>
       </div>

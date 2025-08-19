@@ -57,7 +57,7 @@ export default function Reserve(){
       history: [{at:new Date().toISOString(), action:'Creada'}]
     })
     const token = createMagicToken(email)
-    if (confirm('Pago exitoso (simulación). ¿Ir a "Mis reservas"?')){
+    if (confirm('Pago exitoso (simulación). ¿Ir a "Mis Reservas"?')){
       nav('/m/'+token)
     }
   }
@@ -110,6 +110,7 @@ export default function Reserve(){
         reservedSet={reservedSet}
         onClose={()=> setModal({ open:false, spec:null })}
         onPick={(iso)=>{ setModal({ open:false, spec:null }); onPick(modal.spec, iso) }}
+        onSelectDate={(d)=>{ setSelectedDay(d); setAnchor(d) }}
       />
 
       <CheckoutMock

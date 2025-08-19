@@ -1,7 +1,6 @@
 
 import React from 'react'
 import { money } from '../utils'
-
 export default function SpecialistCard({ specialist, shortHours, reservedSet, onPick, onMore }){
   return (
     <div className="spec">

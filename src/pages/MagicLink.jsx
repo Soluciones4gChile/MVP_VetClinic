@@ -1,35 +1,4 @@
 
-import React, { useState } from 'react'
+import React,{useState} from 'react'
 import { createMagicToken } from '../storage'
-
-export default function MagicLink(){
-  const [email, setEmail] = useState('')
-  const [token, setToken] = useState(null)
-
-  function sendLink(e){
-    e.preventDefault()
-    if (!email) return
-    const t = createMagicToken(email)
-    setToken(t)
-  }
-
-  return (
-    <div className="card">
-      <h2>Portal Cliente</h2>
-      <p>Recibe un <em>magic link</em> para ver y gestionar tus reservas.</p>
-      <form className="row" onSubmit={sendLink}>
-        <input type="email" placeholder="tucorreo@ejemplo.cl" value={email} onChange={e=>setEmail(e.target.value)} />
-        <button className="btn" type="submit">Enviar enlace</button>
-      </form>
-      {token && (
-        <div style={{marginTop:16}}>
-          <div className="small">Demo: copia este enlace o ábrelo ahora (en producción se enviará por email).</div>
-          <code className="small">/m/{token}</code>
-          <div style={{marginTop:8}}>
-            <a className="btn" href={`/m/${token}`}>Abrir “Mis Reservas”</a>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
+export default function MagicLink(){const [email,setEmail]=useState('');const [token,setToken]=useState(null);function sendLink(e){e.preventDefault(); if(!email) return; const t=createMagicToken(email); setToken(t)}return(<div className="card"><h2>Portal Cliente</h2><p>Recibe un <em>magic link</em> para ver y gestionar tus reservas.</p><form className="row" onSubmit={sendLink}><input type="email" placeholder="tucorreo@ejemplo.cl" value={email} onChange={e=>setEmail(e.target.value)} /><button className="btn" type="submit">Enviar enlace</button></form>{token && (<div style={{marginTop:16}}><div className="small">Demo: copia este enlace o ábrelo ahora (en producción se enviará por email).</div><code className="small">/m/{token}</code><div style={{marginTop:8}}><a className="btn" href={`/m/${token}`}>Abrir “Mis Reservas”</a></div></div>)}</div>) }
