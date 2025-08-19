@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 220" width="820" height="220">
+  <defs>
+    <style>
+      .font { font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Paw icon -->
+  <g transform="translate(20,20)">
+    <circle cx="90" cy="90" r="90" fill="#43B3C1" />
+    <ellipse cx="92" cy="115" rx="48" ry="36" fill="#FFFFFF" />
+    <circle cx="56" cy="70" r="16" fill="#FFFFFF" />
+    <circle cx="84" cy="56" r="17" fill="#FFFFFF" />
+    <circle cx="112" cy="56" r="17" fill="#FFFFFF" />
+    <circle cx="140" cy="70" r="16" fill="#FFFFFF" />
+  </g>
+
+  <!-- Text lockup -->
+  <g transform="translate(220,38)" class="font">
+    <text x="0" y="28" font-size="36" fill="#D45863" letter-spacing="4">San Pablo</text>
+    <text x="0" y="118" font-weight="800" font-size="112" fill="#43B3C1">Vet</text>
+    <text x="200" y="118" font-weight="800" font-size="112" fill="#D45863">Clinic</text>
+  </g>
+</svg>

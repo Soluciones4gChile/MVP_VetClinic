@@ -109,3 +109,21 @@ label{ font-size:13px; color:var(--muted) }
 .footer strong{ color: var(--fg) }
 .icon{ width:18px; height:18px; margin-right:6px; fill: currentColor; flex: 0 0 auto }
 .cta-row{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap }
+/* Hero fachada */
+.hero {
+  overflow: hidden;              /* recorta lo que sobre */
+  border-radius: 18px;           /* combina con tus cards */
+}
+
+.hero-img {
+  width: 100%;
+  height: clamp(260px, 42vh, 520px); /* MÁS BAJO: ajusta aquí */
+  object-fit: cover;             /* recorte estético sin deformar */
+  object-position: 20% 50%;      /* enfoca zona del logo (izquierda) */
+  display: block;
+  border-radius: 18px 18px 0 0;
+}
+.brand-logo { height: 54px; display: block }
+@media (max-width: 520px) {
+  .brand-logo { height: 48px }
+}
