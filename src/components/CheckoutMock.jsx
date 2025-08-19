@@ -1,0 +1,3 @@
+import React from 'react'
+import { money } from '../utils'
+export default function CheckoutMock({open,amount,onClose,onResult}){if(!open)return null;return(<div style={{position:'fixed',inset:0,background:'rgba(0,0,0,.55)',display:'flex',alignItems:'center',justifyContent:'center'}}><div className='card'><h3>Webpay (simulado)</h3><p>Anticipo 50%: <strong>{money(amount)}</strong></p><div className='row'><button className='btn' onClick={()=>onResult(true)}>Pago exitoso</button><button className='btn secondary' onClick={()=>onResult(false)}>Pago fallido</button><button className='btn secondary' onClick={onClose}>Cerrar</button></div></div></div>)}

@@ -1,0 +1,1 @@
+export function hoursDiff(f,a){const A=new Date(f).getTime(),B=new Date(a||new Date()).getTime();return (A-B)/(1000*60*60)}export function money(v){return new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP'}).format(v)}export function fmt(dt){return new Date(dt).toLocaleString()}

@@ -1,0 +1,2 @@
+import React from 'react';import { Link } from 'react-router-dom'
+export default function Home(){return(<div className='card'><h1>Agenda Especialistas · Demo</h1><p>Flujo: reservar → pagar 50% → magic link → cancelar con política 24h.</p><div className='row' style={{gap:8}}><Link className='btn' to='/reservar'>Reservar ahora</Link><Link className='btn secondary' to='/portal'>Portal Cliente</Link></div></div>)}
