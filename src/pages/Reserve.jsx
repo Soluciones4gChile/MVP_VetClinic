@@ -30,6 +30,7 @@ export default function Reserve(){
   const [anchor, setAnchor] = useState(()=>{ const d=new Date(); d.setHours(0,0,0,0); return d })
   const [selectedDay, setSelectedDay] = useState(()=> new Date())
   const [modal, setModal] = useState({ open:false, spec:null })
+  const [stamp, setStamp] = useState(0)
   const [checkout, setCheckout] = useState({ open:false, spec:null, iso:null })
 
   const reservedSet = useMemo(()=>{
@@ -64,6 +65,15 @@ export default function Reserve(){
   }
 
   const shortCount = 4
+
+  React.useEffect(()=>{
+    const bump=()=>setStamp(s=>s+1)
+    const onVis=()=>{ if(!document.hidden) bump() }
+    window.addEventListener('focus', bump)
+    window.addEventListener('visibilitychange', onVis)
+    window.addEventListener('storage', bump)
+    return ()=>{ window.removeEventListener('focus', bump); window.removeEventListener('visibilitychange', onVis); window.removeEventListener('storage', bump) }
+  },[])
 
   return (
     <div className="card">

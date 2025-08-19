@@ -1,4 +1,40 @@
-
 import React from 'react'
 import { Link } from 'react-router-dom'
-export default function Home(){return(<div className="card"><h1>Agenda de Especialistas · Demo</h1><p>Objetivo: Reducir no-shows con <strong>anticipo 50%</strong> y <strong>política 24h</strong>.</p><div className="row" style={{gap:8}}><Link className="btn" to="/reservar">Reservar ahora</Link><Link className="btn secondary" to="/portal">Ir a Portal Cliente</Link></div></div>)}
+
+export default function Home(){
+  const testimonials=[
+    {id:1, name:'Carolina', text:'Excelente atención, lograron diagnosticar rápido a mi gatita.', avatar:'/avatars/a1.svg'},
+    {id:2, name:'Mauricio', text:'Me encantó poder reservar y cancelar con tiempo, muy serio.', avatar:'/avatars/a2.svg'},
+    {id:3, name:'Fernanda', text:'El laboratorio in-house fue clave para iniciar tratamiento el mismo día.', avatar:'/avatars/a3.svg'}
+  ]
+  return (
+    <div>
+      <section className="card" style={{padding:'28px', marginBottom:16}}>
+        <div className="row" style={{justifyContent:'space-between'}}>
+          <div>
+            <h1 style={{margin:'0 0 8px'}}>Clínica Vet · Demo</h1>
+            <p className="small">Cuidamos a tu familia peluda con especialistas de Santiago y cancelación 24h.</p>
+          </div>
+          <div className="row" style={{gap:8}}>
+            <Link className="btn" to="/reservar">Reservar ahora</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="card">
+        <h3>Lo que dicen nuestros clientes</h3>
+        <div className="spec-grid" style={{marginTop:12}}>
+          {testimonials.map(t => (
+            <div key={t.id} className="row" style={{gap:12, alignItems:'flex-start', background:'#0f172a', border:'1px solid rgba(148,163,184,.2)', borderRadius:14, padding:12}}>
+              <img src={t.avatar} alt={t.name} width="54" height="54" style={{borderRadius:12, border:'1px solid rgba(148,163,184,.2)'}}/>
+              <div>
+                <strong style={{display:'block'}}>{t.name}</strong>
+                <span className="small">{t.text}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}
