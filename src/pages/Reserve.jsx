@@ -1,3 +1,123 @@
-import React,{useState} from 'react';import SlotPicker from '../components/SlotPicker.jsx';import CheckoutMock from '../components/CheckoutMock.jsx';import { uid, createReservation, tokenFor } from '../storage';import { money } from '../utils';import { useNavigate } from 'react-router-dom'
-const SPECS=[{id:'sp1',name:'Dra. Gómez — Cardio',price:35000},{id:'sp2',name:'Dr. Pérez — Trauma',price:38000},{id:'sp3',name:'Dra. Silva — Derma',price:30000}]
-export default function Reserve(){const [email,setEmail]=useState('');const [spec,setSpec]=useState('');const [slot,setSlot]=useState('');const [open,setOpen]=useState(false);const nav=useNavigate();const s=SPECS.find(x=>x.id===spec);const price=s? s.price:0;const deposit=Math.round(price*0.5);function checkout(e){e.preventDefault();if(!email||!spec||!slot)return alert('Completa todo');setOpen(true)}function onResult(ok){setOpen(false);if(!ok)return alert('Pago fallido');const id=uid();createReservation({id,email,specialistId:spec,specialistName:s.name,datetimeISO:slot,price,deposit,status:'Activa'});const t=tokenFor(email);if(confirm('Pago OK. ¿Ver “Mis reservas”?')) nav('/m/'+t)}return(<div className='card'><h2>Reservar</h2><form className='row' onSubmit={checkout} style={{flexDirection:'column',gap:12}}><input type='email' placeholder='tucorreo@ejemplo.cl' value={email} onChange={e=>setEmail(e.target.value)} /><select value={spec} onChange={e=>setSpec(e.target.value)}><option value='' disabled>Especialista</option>{SPECS.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select><SlotPicker value={slot} onChange={setSlot}/><div className='row' style={{justifyContent:'space-between'}}><small>Valor: <b>{money(price)}</b> · Anticipo 50%: <b>{money(deposit)}</b></small><button className='btn'>Pagar anticipo</button></div></form><CheckoutMock open={open} amount={deposit} onClose={()=>setOpen(false)} onResult={onResult}/></div>)}
+
+import React, { useMemo, useState } from 'react'
+import WeekStrip from '../components/WeekStrip.jsx'
+import SpecialistCard from '../components/SpecialistCard.jsx'
+import HoursModal from '../components/HoursModal.jsx'
+import CheckoutMock from '../components/CheckoutMock.jsx'
+import { uid, createReservation, createMagicToken, getReservations } from '../storage'
+import { useNavigate } from 'react-router-dom'
+
+const SPECIALISTS = [
+  { id:'sp1', name:'Dra. Gómez — Cardiología', price:35000 },
+  { id:'sp2', name:'Dr. Pérez — Traumatología', price:38000 },
+  { id:'sp3', name:'Dra. Silva — Dermatología', price:30000 },
+]
+
+function startOfDay(d){ const x = new Date(d); x.setHours(0,0,0,0); return x }
+
+function buildHours(date){
+  // 14:05, 14:25, 14:45, 16:05, 16:25, 17:05
+  const base = startOfDay(date)
+  const mins = [14*60+5, 14*60+25, 14*60+45, 16*60+5, 16*60+25, 17*60+5]
+  return mins
+    .map(m => { const t = new Date(base); t.setMinutes(m); return t })
+    .filter(t => t.getTime() > Date.now()+1000*60*30)
+}
+
+export default function Reserve(){
+  const nav = useNavigate()
+  const [email, setEmail] = useState('')
+  const [anchor, setAnchor] = useState(()=>{ const d=new Date(); d.setHours(0,0,0,0); return d })
+  const [selectedDay, setSelectedDay] = useState(()=> new Date())
+  const [modal, setModal] = useState({ open:false, spec:null })
+  const [checkout, setCheckout] = useState({ open:false, spec:null, iso:null })
+
+  const reservedSet = useMemo(()=>{
+    const all = getReservations().filter(r => r.status==='Activa')
+    return new Set(all.map(r => r.datetimeISO))
+  }, [modal, checkout])
+
+  const hoursForDay = useMemo(()=> buildHours(selectedDay), [selectedDay])
+
+  function onPick(spec, iso){
+    if (!email) { alert('Ingresa tu correo antes de reservar.'); return }
+    setCheckout({ open:true, spec, iso })
+  }
+
+  function confirmPayment(ok){
+    const { spec, iso } = checkout
+    setCheckout({ open:false, spec:null, iso:null })
+    if (!ok) { alert('Pago fallido (simulación).'); return }
+    const id = uid()
+    const price = spec.price, deposit = Math.round(price*0.5)
+    createReservation({
+      id, email, specialistId: spec.id, specialistName: spec.name,
+      datetimeISO: iso, price, deposit, status:'Activa',
+      createdAt: new Date().toISOString(),
+      history: [{at:new Date().toISOString(), action:'Creada'}]
+    })
+    const token = createMagicToken(email)
+    if (confirm('Pago exitoso (simulación). ¿Ir a "Mis reservas"?')){
+      nav('/m/'+token)
+    }
+  }
+
+  const shortCount = 4
+
+  return (
+    <div className="card">
+      <h2>Seleccionar día y hora</h2>
+      <div className="grid" style={{gap:8}}>
+        <div className="row">
+          <div style={{flex:1}}>
+            <label>Correo del titular</label>
+            <input type="email" placeholder="tucorreo@ejemplo.cl" value={email} onChange={e=>setEmail(e.target.value)} />
+          </div>
+        </div>
+
+        <WeekStrip
+          anchor={anchor}
+          selected={selectedDay}
+          onPrev={()=>{ const d=new Date(anchor); d.setDate(d.getDate()-7); setAnchor(d); setSelectedDay(d) }}
+          onNext={()=>{ const d=new Date(anchor); d.setDate(d.getDate()+7); setAnchor(d); setSelectedDay(d) }}
+          onSelect={setSelectedDay}
+        />
+
+        <div className="small">Mostrando especialistas para el <strong>{selectedDay.toLocaleDateString('es-CL',{weekday:'long', day:'2-digit', month:'long'})}</strong></div>
+
+        <div className="spec-grid">
+          {SPECIALISTS.map(spec => {
+            const short = hoursForDay.slice(0, shortCount)
+            return (
+              <SpecialistCard
+                key={spec.id}
+                specialist={spec}
+                shortHours={short}
+                reservedSet={reservedSet}
+                onPick={(iso)=>onPick(spec, iso)}
+                onMore={()=> setModal({ open:true, spec }) }
+              />
+            )
+          })}
+        </div>
+      </div>
+
+      <HoursModal
+        open={modal.open}
+        specialist={modal.spec || SPECIALISTS[0]}
+        date={selectedDay}
+        hours={hoursForDay}
+        reservedSet={reservedSet}
+        onClose={()=> setModal({ open:false, spec:null })}
+        onPick={(iso)=>{ setModal({ open:false, spec:null }); onPick(modal.spec, iso) }}
+      />
+
+      <CheckoutMock
+        open={checkout.open}
+        amount={checkout.spec ? Math.round(checkout.spec.price*0.5) : 0}
+        onClose={()=> setCheckout({open:false, spec:null, iso:null})}
+        onResult={confirmPayment}
+      />
+    </div>
+  )
+}

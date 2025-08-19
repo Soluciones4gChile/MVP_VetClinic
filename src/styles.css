@@ -1,1 +1,49 @@
-body{margin:0;font-family:system-ui;background:#0b1020;color:#f8fafc}.container{max-width:960px;margin:0 auto;padding:24px}.card{background:#0d132b;border:1px solid #1f2a44;border-radius:14px;padding:18px}.row{display:flex;gap:10px;align-items:center}.btn{background:#3b82f6;color:#fff;border:none;padding:10px 12px;border-radius:10px;cursor:pointer}.btn.secondary{background:#11193a;border:1px solid #334155}
+
+:root{
+  --bg:#0b1020; --surface:#0d132b; --card:#11193a; --line:#1e293b;
+  --fg:#f8fafc; --muted:#cbd5e1; --brand:#2dd4bf; --brand-dark:#0e7490; --pill:#177e7a;
+}
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; background:var(--bg); color:var(--fg)}
+.container{max-width:1100px; margin:0 auto; padding:24px}
+header a{color:var(--fg); text-decoration:none}
+.card{background:linear-gradient(180deg, rgba(17,25,58,.95), rgba(17,25,58,.85)); border:1px solid rgba(203,213,225,.15); border-radius:18px; padding:18px}
+hr{border:none; border-top:1px solid rgba(148,163,184,.2); margin:16px 0}
+.row{display:flex; align-items:center; gap:12px}
+.grid{display:grid; gap:16px}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.btn{background:linear-gradient(180deg,#34d399,#10b981); color:#041016; border:none; border-radius:12px; padding:10px 14px; cursor:pointer; font-weight:700}
+.btn.secondary{background:#11193a; color:#e2e8f0; border:1px solid rgba(148,163,184,.25)}
+.btn.ghost{background:transparent; border:1px solid rgba(148,163,184,.25); color:#e2e8f0}
+small, .small{color:#94a3b8; font-size:12px}
+/* Week strip */
+.week{display:flex; gap:10px; align-items:center; overflow:auto; padding:6px}
+.day{min-width:110px; background:#0f172a; border:1px solid rgba(148,163,184,.25); border-radius:14px; padding:10px; text-align:center; cursor:pointer}
+.day.active{border-color:#34d399; box-shadow:0 0 0 2px rgba(52,211,153,.25) inset}
+.day .dow{font-size:12px; color:#9ca3af}
+.day .date{font-weight:700; font-size:14px}
+.chev{width:34px; height:34px; display:grid; place-items:center; border-radius:10px; border:1px solid rgba(148,163,184,.25); cursor:pointer; background:#0f172a}
+/* Specialist cards */
+.spec-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(290px,1fr)); gap:14px; margin-top:8px}
+.spec{display:grid; grid-template-columns:1fr auto; gap:12px; background:#0f172a; border:1px solid rgba(148,163,184,.2); border-radius:14px; padding:14px}
+.spec .avatar{width:64px; height:64px; border-radius:12px; background:#0b1326; border:1px solid rgba(148,163,184,.2); display:grid; place-items:center; font-weight:800; color:#67e8f9}
+.spec h4{margin:0 0 6px 0}
+.pills{display:flex; flex-direction:column; gap:8px}
+.pill{background:#0b3b3a; color:#e2fffb; border:1px solid rgba(45,212,191,.45); border-radius:999px; padding:8px 12px; text-align:center; cursor:pointer}
+.pill[disabled]{opacity:.4; cursor:not-allowed}
+.badge{display:inline-block; padding:4px 8px; background:#0f172a; border:1px solid rgba(148,163,184,.3); border-radius:999px; color:#cbd5e1; font-size:12px}
+/* Modal */
+.backdrop{position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:center; justify-content:center; z-index:50}
+.modal{width:min(900px,96%); background:#0f172a; border:1px solid rgba(148,163,184,.25); border-radius:16px; padding:18px}
+.modal .cols{display:grid; grid-template-columns: 1fr 280px; gap:16px}
+.hours-list{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
+.calendar{display:grid; grid-template-columns: repeat(7, 1fr); gap:6px; font-size:12px}
+.calendar .cell{aspect-ratio: 1/1; display:grid; place-items:center; border:1px solid rgba(148,163,184,.2); border-radius:8px; color:#cbd5e1}
+.calendar .cell.muted{opacity:.45}
+.calendar .cell.active{border-color:#34d399}
+.calendar .cell.sel{background:#14532d; border-color:#34d399; color:#dcfce7}
+.close-x{background:transparent; border:none; color:#e2e8f0; font-size:18px; cursor:pointer}
+/* Forms */
+input,select{background:#0d132b; color:#f8fafc; border:1px solid rgba(148,163,184,.3); padding:10px 12px; border-radius:10px; width:100%}
+label{font-size:13px; color:#cbd5e1}
