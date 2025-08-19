@@ -14,7 +14,7 @@ export default function SpecialistCard({ specialist, shortHours, reservedSet, on
       <div className="pills">
         {shortHours.map(h => {
           const iso = h.toISOString()
-          const reserved = reservedSet.has(iso)
+          const reserved = reservedSet.has(`${specialist.id}__${iso}`)
           return (
             <button key={iso} className="pill" disabled={reserved} onClick={()=>onPick(iso)}>
               {h.toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit'})}
