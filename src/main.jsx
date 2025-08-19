@@ -1,5 +1,4 @@
 
-import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import Home from './pages/Home.jsx'
@@ -13,7 +12,7 @@ function Layout({children}){
   return (
     <div className="container">
       <header className="row topbar" style={{justifyContent:'space-between', marginBottom:16}}>
-        <Link to="/"><strong>Clínica Vet · Demo</strong></Link>
+        <Link to="/"><strong>San Pablo Vet Clinic</strong></Link>
         <nav className="row" style={{gap:12, alignItems:'center'}}>
           <Link to="/about">Quiénes somos</Link>
           <Link to="/portal">Portal Cliente</Link>

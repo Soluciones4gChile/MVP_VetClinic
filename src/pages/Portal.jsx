@@ -1,5 +1,5 @@
 
-import React,{useMemo,useState} from 'react'
+import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { emailForToken, getReservationsByEmail, setReservationStatus, updateCustomerEmail } from '../storage'
 import { fmtDateTime, hoursDiff, money } from '../utils'

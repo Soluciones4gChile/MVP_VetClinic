@@ -1,11 +1,10 @@
 
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { money } from '../utils'
 
 function monthKey(d){ return `${d.getFullYear()}-${d.getMonth()+1}` }
 function firstOfMonth(d){ const x = new Date(d); x.setDate(1); x.setHours(0,0,0,0); return x }
 function startOfToday(){ const t=new Date(); t.setHours(0,0,0,0); return t }
-
 function buildMonthGrid(view){
   const d = firstOfMonth(view)
   const firstDow = (d.getDay() + 6) % 7 // Monday=0
@@ -13,28 +12,20 @@ function buildMonthGrid(view){
   const cells = []
   for (let i=0;i<firstDow;i++) cells.push({ muted:true, label:'' })
   for (let day=1; day<=daysInMonth; day++){
-    const x = new Date(d)
-    x.setDate(day)
-    x.setHours(0,0,0,0)
-    cells.push({ date:x, label:String(day) })
+    const x = new Date(d); x.setDate(day); x.setHours(0,0,0,0); cells.push({ date:x, label:String(day) })
   }
   while (cells.length % 7 !== 0) cells.push({ muted:true, label:'' })
   return cells
 }
-
 export default function HoursModal({ open, specialist, date, hours, reservedSet, onClose, onPick, onSelectDate }){
   const today = startOfToday()
   const [viewMonth, setViewMonth] = useState(()=> firstOfMonth(date))
   const canPrev = useMemo(()=> monthKey(firstOfMonth(today)) !== monthKey(viewMonth), [viewMonth])
-
   function prevMonth(){ if(!canPrev) return; const x=new Date(viewMonth); x.setMonth(x.getMonth()-1); setViewMonth(firstOfMonth(x)) }
   function nextMonth(){ const x=new Date(viewMonth); x.setMonth(x.getMonth()+1); setViewMonth(firstOfMonth(x)) }
-
   if (!open) return null
   const cells = buildMonthGrid(viewMonth)
-
   function canSelect(day){ return day && day.getTime() >= today.getTime() }
-
   return (
     <div className="backdrop" role="dialog" aria-modal="true">
       <div className="modal">
@@ -45,7 +36,7 @@ export default function HoursModal({ open, specialist, date, hours, reservedSet,
         <div className="cols">
           <div>
             <div className="row" style={{gap:12, marginBottom:10}}>
-              <div className="avatar" style={{width:74,height:74, borderRadius:14, background:'#0b1326', border:'1px solid rgba(148,163,184,.25)', display:'grid', placeItems:'center', fontWeight:800, color:'#67e8f9'}}>{specialist.name.split(' ')[0][0]}</div>
+              <div className="avatar" style={{width:74,height:74, borderRadius:14, background:'color-mix(in oklab, var(--brand) 12%, #fff)', border:'1px solid var(--line)', display:'grid', placeItems:'center', fontWeight:800, color:'var(--brand-dark)'}}>{specialist.name.split(' ')[0][0]}</div>
               <div>
                 <div style={{fontWeight:700}}>{specialist.name}</div>
                 <div className="small">Valor: {money(specialist.price)}</div>
@@ -59,7 +50,7 @@ export default function HoursModal({ open, specialist, date, hours, reservedSet,
                 const reserved = reservedSet.has(`${specialist.id}__${iso}`)
                 return (
                   <button key={iso} className="btn" disabled={reserved} onClick={()=>onPick(iso)}>
-                    {h.toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit', hour12: false, hour12: false})}
+                    {h.toLocaleTimeString('es-CL', {hour:'2-digit', minute:'2-digit', hour12:false})}
                   </button>
                 )
               })}
