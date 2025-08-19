@@ -6,9 +6,7 @@
     </linearGradient>
   </defs>
   <rect width="100%" height="100%" fill="url(#g)"/>
-  <text x="50%" y="45%" text-anchor="middle" font-family="Inter,Arial" font-size="44" fill="#ffffff">San Pablo Vet Clinic</text>
-  <text x="50%" y="65%" text-anchor="middle" font-family="Inter,Arial" font-size="16" fill="#0F172A">Urgencias 24/7</text>
-  <text x="50%" y="75%" text-anchor="middle" font-family="Inter,Arial" font-size="16" fill="#0F172A">Consulta a domicilio • 09:00–18:30</text>
-  <text x="50%" y="85%" text-anchor="middle" font-family="Inter,Arial" font-size="16" fill="#0F172A">Whatsapp: +56961900401 - Telefono: 722904717</text>
-  <text x="50%" y="95%" text-anchor="middle" font-family="Inter,Arial" font-size="16" fill="#0F172A">Direccion: Avenida Central 265, Villa triana - Rancagua</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="Inter,Arial" font-size="44" fill="#ffffff">San Pablo Vet Clinic</text>
+  <text x="50%" y="85%" text-anchor="middle" font-family="Inter,Arial" font-size="16" fill="#0F172A">Urgencias 24/7</text>
+  <text x="50%" y="95%" text-anchor="middle" font-family="Inter,Arial" font-size="16" fill="#0F172A">Consulta a domicilio • 09:00–18:30</text>
 </svg>
