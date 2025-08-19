@@ -4,7 +4,7 @@ import WeekStrip from '../components/WeekStrip.jsx'
 import SpecialistCard from '../components/SpecialistCard.jsx'
 import HoursModal from '../components/HoursModal.jsx'
 import CheckoutMock from '../components/CheckoutMock.jsx'
-import { uid, createReservation, createMagicToken, getReservations } from '../storage'
+import { uid, tryCreateReservation, isSlotTaken, createMagicToken, getReservations } from '../storage'
 import { useNavigate } from 'react-router-dom'
 
 const SPECIALISTS = [
@@ -50,12 +50,13 @@ export default function Reserve(){
     if (!ok) { alert('Pago fallido (simulación).'); return }
     const id = uid()
     const price = spec.price, deposit = Math.round(price*0.5)
-    createReservation({
+    const result = tryCreateReservation({
       id, email, specialistId: spec.id, specialistName: spec.name,
       datetimeISO: iso, price, deposit, status:'Activa',
       createdAt: new Date().toISOString(),
       history: [{at:new Date().toISOString(), action:'Creada'}]
     })
+    if (!result.ok){ alert('Lo sentimos, esa hora ya fue tomada. Selecciona otra.'); return }
     const token = createMagicToken(email)
     if (confirm('Pago exitoso (simulación). ¿Ir a "Mis Reservas"?')){
       nav('/m/'+token)
