@@ -23,8 +23,12 @@ function Layout({ children }) {
         className="row topbar"
         style={{ justifyContent: "space-between", marginBottom: 16 }}
       >
-        <Link to="/" className="logo">
-          <strong>San Pablo Vet Clinic</strong>
+        <Link to="/" className="row" style={{ alignItems: "center", gap: 10 }}>
+          <img
+            src="/logo-spvet.svg"
+            alt="San Pablo Vet Clinic"
+            className="brand-logo"
+          />
         </Link>
         <nav className="row" style={{ gap: 12, alignItems: "center" }}>
           <Link to="/">Inicio</Link>
@@ -84,6 +88,14 @@ function Layout({ children }) {
                 Avenida Central 265, Villa Triana — Rancagua
               </a>
             </div>
+            <div className="row small">
+              <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
+                {/* ícono "info" en círculo */}
+                <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+              </svg>
+              <strong>Política de cancelación:</strong>&nbsp;24h · Anticipo 50%
+              (demo)
+            </div>
           </div>
 
           <div aria-label="Horarios">
@@ -98,9 +110,6 @@ function Layout({ children }) {
                 <path d="M12 8a4 4 0 11-4 4 4 4 0 014-4m0-6a10 10 0 1010 10A10 10 0 0012 2z" />
               </svg>
               <strong>Consulta a domicilio:</strong>&nbsp;09:00–18:30
-            </div>
-            <div className="small">
-              Política de cancelación: 24h · Anticipo 50% (demo)
             </div>
 
             <div className="cta-row">

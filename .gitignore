@@ -1,0 +1,35 @@
+# --- Node / Vite ---
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+
+# Archivos de entorno (mantén un .env.example aparte)
+.env
+.env.*
+!.env.example
+
+# Logs y reports
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+coverage/
+
+# Caches/temporales
+.tmp/
+temp/
+tmp/
+*.tsbuildinfo
+
+# Netlify (mantén netlify.toml versionado)
+.netlify/
+
+# SO / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
