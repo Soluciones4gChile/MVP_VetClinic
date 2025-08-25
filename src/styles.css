@@ -66,13 +66,13 @@ hr{ border:0; border-top:1px solid var(--line); margin:16px 0 }
 }
 
 /* Reserva (semana, especialistas, modal) — por si tus páginas ya las usan */
-.week{ display:flex; gap:10px; align-items:center; overflow:auto; padding:6px }
+.week{ display:flex; gap:15px; align-items:center; overflow:auto; padding:6px }
 .day{
   min-width:110px; text-align:center; cursor:pointer;
   background: var(--surface); border:1px solid var(--line); border-radius:14px; padding:10px;
 }
 .day .dow,.day .date{ color: var(--fg) }
-.day.active{ border-color: var(--brand) }
+.day.active{ border-color: var(--brand);background-color: #bfd9b4;  }
 .chev{ width:34px; height:34px; display:grid; place-items:center; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--fg); cursor:pointer }
 
 .spec-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(290px,1fr)); gap:14px; margin-top:8px }
